@@ -35,6 +35,23 @@ class DdvUrl
   {
     return urldecode($value);
   }
+  //使用编码数组编码
+  public static function build($value)
+  {
+    return http_build_url($value);
+  }
+  public static function parse($value)
+  {
+    return parse_url($value);
+  }
+  public static function parseQuery($query)
+  {
+    parse_str($query, $params);
+    return $params;
+  }
+  public static function buildQuery($params=array()){
+    return http_build_query($params);
+  }
 }
 
 // 根据RFC 3986，除了：
