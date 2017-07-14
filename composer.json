@@ -3,7 +3,8 @@
 	"description": "ddv-url php library",
 	"version": "0.0.1",
 	"require": {
-		"php": ">=5.3"
+		"php": ">=5.3",
+		"jakeasmith/http_build_url": "^1.0"
 	},
 	"require-dev": {
 	},

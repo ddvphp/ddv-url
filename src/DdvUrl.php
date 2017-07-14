@@ -52,6 +52,15 @@ class DdvUrl
   public static function buildQuery($params=array()){
     return http_build_query($params);
   }
+
+  public static function formatPath($path){
+      $path = '/'.implode('/', array_filter(explode('/', $path)));
+      // 强制/开头
+      if (substr($path, 0, 1) !== '/') {
+          $path = '/' . $path;
+      }
+      return $path;
+  }
 }
 
 // 根据RFC 3986，除了：
