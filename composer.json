@@ -4,6 +4,7 @@
 	"version": "0.0.1",
 	"require": {
 		"php": ">=5.3",
+		"ddvphp/ddv-util": "0.0.*",
 		"jakeasmith/http_build_url": "^1.0"
 	},
 	"require-dev": {

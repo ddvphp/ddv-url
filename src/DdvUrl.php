@@ -1,6 +1,8 @@
 <?php
 namespace DdvPhp;
 
+use DdvPhp\DdvUtil\Arrays\Compare;
+
 /**
  * Class Cors
  *
@@ -49,8 +51,56 @@ class DdvUrl
     parse_str($query, $params);
     return $params;
   }
-  public static function buildQuery($params=array()){
-    return http_build_query($params);
+  public static function buildQuery($params=array(), $isQuery = false){
+    $r = implode('&', self::buildParamsToArray($params, ''));
+    if ($isQuery) {
+      $r = str_replace("%20", "+", $r);
+    }
+    return $r;
+  }
+
+    /**
+     * @param $data
+     * @param $prefix
+     * @return array
+     */
+  public static function buildParamsToArray($data, $prefix){
+    $r = array();
+    if (is_array($data)){
+      if (Compare::isIndexArray($data)){
+        for ($i=0; $i < count($data) ; $i++) {
+          // 值
+          $value = $data[$i];
+          if (!isset($value)) continue;
+          // 键
+          $keyt = self::buildParamsAddPrefix($i, $prefix, is_array($value));
+          if (is_array($value)){
+              $r = array_merge($r, self::buildParamsToArray($value, $keyt));
+          }else{
+              $r[] = self::urlEncode($keyt) . '=' . self::urlEncode($value);
+          }
+        }
+      }else{
+        foreach ($data as $key => $value) {
+          if (!isset($value)) continue;
+          // 键
+          $keyt = self::buildParamsAddPrefix($i, $prefix);
+          if (is_array($value)){
+            $r = array_merge($r, self::buildParamsToArray($value, $keyt));
+          }else{
+            $r[] = self::urlEncode($keyt) . '=' . self::urlEncode($value);
+          }
+        }
+      }
+    }
+    return $r;
+  }
+  public static function buildParamsAddPrefix ($key, $prefix, $isNotArray = null) {
+    if ($prefix) {
+      return $prefix + '[' + ($isNotArray !== false ? $key : '') + ']';
+    } else {
+      return $key;
+    }
   }
 
   public static function formatPath($path){
