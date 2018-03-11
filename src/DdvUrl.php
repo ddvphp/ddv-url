@@ -84,7 +84,7 @@ class DdvUrl
         foreach ($data as $key => $value) {
           if (!isset($value)) continue;
           // 键
-          $keyt = self::buildParamsAddPrefix($i, $prefix);
+          $keyt = self::buildParamsAddPrefix($key, $prefix);
           if (is_array($value)){
             $r = array_merge($r, self::buildParamsToArray($value, $keyt));
           }else{
@@ -97,7 +97,7 @@ class DdvUrl
   }
   public static function buildParamsAddPrefix ($key, $prefix, $isNotArray = null) {
     if ($prefix) {
-      return $prefix + '[' + ($isNotArray !== false ? $key : '') + ']';
+      return $prefix . '[' . ($isNotArray !== false ? $key : '') . ']';
     } else {
       return $key;
     }
